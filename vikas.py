@@ -26,7 +26,7 @@ def main(args):
         )
 
     # num_epochs=1
-    learning_rate=0.05
+    learning_rate=0.005
 
     model = VICReg(args).to(device)
 
