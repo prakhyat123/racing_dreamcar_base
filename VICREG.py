@@ -49,7 +49,7 @@ def Projector(args, embedding):
         layers.append(nn.Linear(f[i],f[i+1]))
         # BatchNorm 1d??
         layers.append(nn.BatchNorm1d(f[i+1]))
-        layers.append(nn.ReLU(True))
+        layers.append(nn.LeakyReLU(0.01))
     layers.append(nn.Linear(f[-2], f[-1], bias=False))
     return nn.Sequential(*layers)
 
