@@ -21,7 +21,7 @@ def main(args):
 
     loader = torch.utils.data.DataLoader(
             dataset,
-            batch_size=8,
+            batch_size=128,
             shuffle = True
         )
 
@@ -48,6 +48,8 @@ def main(args):
             scaler.step(optimizer)
             scaler.update()
             step_loss = total_loss.item() * x.size(0)
+            if step%50==0:
+                print(total_loss)
             writer.add_scalar("Total Loss/train", step_loss, epoch)
             writer.add_scalar("invarinace_loss/train", invarinace_loss, epoch)
             writer.add_scalar("variance_loss", variance_loss, epoch)
