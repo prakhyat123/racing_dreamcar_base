@@ -8,7 +8,7 @@ class VICReg(nn.Module):
         self.args = args
         # What is this??
         self.num_features = int(args.mlp.split("-")[-1])
-        self.resnet = torch.hub.load('pytorch/vision:v0.10.0', 'resnet50', pretrained=False)
+        self.resnet = torch.hub.load('pytorch/vision:v0.10.0', 'resnet18', pretrained=False)
         self.embedding = 1000
         self.projector = Projector(args, self.embedding)
         self.hparams_variance_loss_epsilon = 0.0001
