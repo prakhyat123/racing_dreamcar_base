@@ -26,7 +26,7 @@ def main(args):
         )
 
     # num_epochs=1
-    learning_rate=0.005
+    learning_rate=0.01
 
     model = VICReg(args).to(device)
 
@@ -50,10 +50,10 @@ def main(args):
             step_loss = total_loss.item() * x.size(0)
             if step%50==0:
                 print(total_loss)
-            writer.add_scalar("Total Loss/train", step_loss, epoch)
-            writer.add_scalar("invarinace_loss/train", invarinace_loss, epoch)
-            writer.add_scalar("variance_loss", variance_loss, epoch)
-            writer.add_scalar("loss_cov", loss_cov, epoch)
+            writer.add_scalar("Total Loss/train", step_loss, step)
+            writer.add_scalar("invarinace_loss/train", invarinace_loss, step)
+            writer.add_scalar("variance_loss", variance_loss, step)
+            writer.add_scalar("loss_cov", loss_cov, step)
             running_loss += step_loss
         epoch_loss = running_loss
         print('Epoch Loss: {:.4f}'.format(epoch_loss))
