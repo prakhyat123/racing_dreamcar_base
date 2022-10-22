@@ -21,7 +21,7 @@ def main(args):
 
     loader = torch.utils.data.DataLoader(
             dataset,
-            batch_size=128,
+            batch_size=512,
             shuffle = True
         )
 
@@ -67,9 +67,9 @@ def main(args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Representation Learning for DonkeyCar")
     parser.add_argument("--data-dir", type=Path, required=True, help='Path to the input Images')
-    parser.add_argument("--mlp", default="8192-8192-8192",
+    parser.add_argument("--mlp", default="4096-2048-1024",
                         help='Size and number of layers of the MLP expander head')
-    parser.add_argument("--epochs", type=int, default=100,
+    parser.add_argument("--epochs", type=int, default=10,
                         help='Number of epochs')
     args = parser.parse_args()
     main(args)
