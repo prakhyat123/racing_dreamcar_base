@@ -31,7 +31,7 @@ def main(args):
     model = VICReg(args).to(device)
 
     #Defining the optimizer and lr scheduler:
-    optimizer=optim.Adam(model.parameters(),lr=learning_rate)
+    optimizer=optim.AdamW(model.parameters(),lr=learning_rate)
     scheduler = StepLR(optimizer, step_size=1, gamma=0.75)
 
     scaler = torch.cuda.amp.GradScaler()
@@ -60,7 +60,7 @@ def main(args):
             print("[Info] Found New Best Model With Loss: ", best_epoch_loss)
             torch.save(model.resnet.state_dict(), args.data_dir / "model.pth")
             torch.save(model.resnet.state_dict(), args.data_dir / "resnet18.pth")
-        print('Epoch Loss: {:.4f}'.format(epoch_loss))
+        print('Epoch Loss: {:.4f}'.format(running_loss))
         scheduler.step()
 
     writer.flush()
