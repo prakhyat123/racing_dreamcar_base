@@ -35,7 +35,7 @@ def main(args):
     scheduler = StepLR(optimizer, step_size=1, gamma=0.75)
 
     scaler = torch.cuda.amp.GradScaler()
-
+    best_epoch_loss = 2e15
     for epoch in range(args.epochs):
         running_loss = 0.0
         for step, ((x,y), _) in enumerate(loader):
@@ -55,7 +55,11 @@ def main(args):
             writer.add_scalar("variance_loss", variance_loss, step)
             writer.add_scalar("loss_cov", loss_cov, step)
             running_loss += step_loss
-        epoch_loss = running_loss
+        if(running_loss<best_epoch_loss):
+            best_epoch_loss = running_loss
+            print("[Info] Found New Best Model With Loss: ", best_epoch_loss)
+            torch.save(model.resnet.state_dict(), args.data_dir / "model.pth")
+            torch.save(model.resnet.state_dict(), args.data_dir / "resnet18.pth")
         print('Epoch Loss: {:.4f}'.format(epoch_loss))
         scheduler.step()
 
@@ -67,7 +71,7 @@ def main(args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Representation Learning for DonkeyCar")
     parser.add_argument("--data-dir", type=Path, required=True, help='Path to the input Images')
-    parser.add_argument("--mlp", default="4096-2048-1024",
+    parser.add_argument("--mlp", default="2048-1024",
                         help='Size and number of layers of the MLP expander head')
     parser.add_argument("--epochs", type=int, default=10,
                         help='Number of epochs')
